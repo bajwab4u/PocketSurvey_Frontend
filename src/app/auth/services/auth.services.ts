@@ -1,105 +1,38 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable, Subscriber } from "rxjs";
-import { ApiResponseInterface } from "../../shared/models/api.models";
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ApiResponseInterface } from '../../shared/models/api.models';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthApiService 
-{
+export class AuthApiService {
+  constructor(private http: HttpClient) {}
 
-	constructor(
-		protected http: HttpClient,
-	) 
-	{
+  sendResetPasswordLink(email: string): Observable<ApiResponseInterface<any>> {
+    const url = 'http://localhost:3000/sendResetPasswordLink'; // Specify the full URL with protocol
+    const payload = { email };
 
-	}
+    return this.http.post<ApiResponseInterface<any>>(url, payload);
+  }
 
+  resetPassword(
+    data: object,
+    token: string
+  ): Observable<ApiResponseInterface<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = {
+      headers,
+      withCredentials: true,
+    };
 
+    document.cookie = `Authorization=${token}`;
+    const url = 'http://localhost:3000/resetPassword';
 
+    const payload = data;
 
-	login<IRequest, IResponse>(payload: IRequest): Observable<ApiResponseInterface<IResponse | any>> 
-	{
-		const config: IApiCallConfig = {
-			showToast: true,
-			isTokenRequired: false,
-			isAuthStrTokenRequired: false
-		};
-
-		return new Observable((subscriber: Subscriber<any>) => {
-
-			this.post<IRequest>('/v2/initial-signup', payload, false, config)
-			.subscribe((resp: IGenericApiResponse<IResponse | any>) => {
-
-				
-				subscriber.next(resp);
-				subscriber.complete();
-
-			},(err: IGenericApiResponse<IResponse | any>) => {
-
-				subscriber.error(err);
-                subscriber.complete();
-			});
-
-		});
-
-	}
-
-	sendEmailLink<IRequest, IResponse>(payload: IRequest): Observable<IGenericApiResponse<IResponse | any>>
-	{
-		const config: IApiCallConfig = {
-			showToast: true,
-			isTokenRequired: false,
-			isAuthStrTokenRequired: false
-		};
-
-		return new Observable((subscriber: Subscriber<any>) => {
-
-			this.post<IRequest>('/v2/users/request-reset-password-link', payload, false, config)
-			.subscribe((resp: IGenericApiResponse<IResponse | any>) => {
-
-				subscriber.next(resp);
-				subscriber.complete();
-
-			},(err: IGenericApiResponse<IResponse | any>) => {
-
-				subscriber.error(err);
-                subscriber.complete();
-			});
-
-		});
-	}
-
-	resetPasswordinForgotCase<IRequest, IResponse>(payload: IRequest): Observable<IGenericApiResponse<IResponse | any>> 
-	{
-		const config: IApiCallConfig = {
-			showToast: true,
-			isTokenRequired: false,
-			isAuthStrTokenRequired: false
-		};
-
-		return new Observable((subscriber: Subscriber<any>) => {
-
-			this.post<IRequest>('/v2/users/reset-password', payload, false, config)
-			.subscribe((resp: IGenericApiResponse<IResponse | any>) => {
-
-				this.toastr.success(resp.status.message.details, 'Success!');
-				subscriber.next(resp);
-				subscriber.complete();
-
-			},(err: IGenericApiResponse<IResponse | any>) => {
-
-				subscriber.error(err);
-                subscriber.complete();
-			});
-
-		});
-	}
-
-
-
-
-
+    return this.http.post<ApiResponseInterface<any>>(url, payload, options);
+  }
 }

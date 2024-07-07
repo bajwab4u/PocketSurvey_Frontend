@@ -1,6 +1,5 @@
-export interface ApiResponseInterface<IResponse>
-{
-    status: any;
-    data: IResponse;
-    pagination?: any;
+export interface ApiResponseInterface<IResponse> {
+  status: any;
+  data: IResponse;
+  pagination?: any;
 }

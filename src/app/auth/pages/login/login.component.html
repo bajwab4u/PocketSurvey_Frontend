@@ -1,29 +1,46 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
-                <div>
-                  <label for="email">Email:</label>
-                  <input id="email" formControlName="email">
-                  <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-                    <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
-                    <small *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address.</small>
-                  </div>
-                </div>
-              
-                <div>
-                  <label for="password">Password:</label>
-                  <input id="password" type="password" formControlName="password">
-                  <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                    <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
-                    <small *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
-                  </div>
-                </div>
-              
-                <button type="submit" [disabled]="loginForm.invalid">Submit</button>
-              </form>
-              
-              
-        </div>
+<section class="card">
+  <header>Sign In</header>
+  <div>
+    Don't have an account?
+    <span class="signup" (click)="onClickSignup()">Sign Up</span>
+  </div>
+
+  <form class="form" [formGroup]="loginForm" (ngSubmit)="OnFormSubmitted()">
+    <div class="input-box">
+      <label style="float: left">Email </label>
+      <input
+        type="text"
+        placeholder="Enter Valid Email"
+        formControlName="email"
+      />
+
+      <small
+        *ngIf="loginForm.get('email').invalid && loginForm.get('email').touched"
+      >
+        *Email is not valid.
+      </small>
     </div>
-</div>
+
+    <div class="input-box">
+      <label style="float: left">Password </label>
+      <input
+        type="text"
+        placeholder="Enter Valid Password"
+        formControlName="password"
+      />
+
+      <small
+        *ngIf="
+          loginForm.get('password').invalid && loginForm.get('password').touched
+        "
+      >
+        *Password is not valid.
+      </small>
+    </div>
+
+    <input type="submit" value="Sign In" class="submit-btn" />
+    <p (click)="onClickForgotPassword()" class="forgotPassword">
+      Forgot Password ?
+    </p>
+  </form>
+</section>

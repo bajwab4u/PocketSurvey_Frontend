@@ -6,21 +6,21 @@ import { AuthApiService } from '../../services/auth.services';
 import { ApiResponseInterface } from '../../../shared/models/api.models';
 
 @Component({
-  selector: 'app-verify-otp',
+  selector: 'app-forgot-password',
   standalone: false,
-  templateUrl: './verify-otp.component.html',
-  styleUrl: './verify-otp.component.scss',
+  templateUrl: './forgot-password.component.html',
+  styleUrl: './forgot-password.component.scss',
 })
-export class VerifyOtpComponent {
+export class ForgotPasswordComponent implements OnInit {
   formdata: any = {};
 
-  verifyOtpForm: FormGroup;
+  forgotPasswordForm: FormGroup;
 
   isLoading: boolean = false;
   constructor(private router: Router, private authApiService: AuthApiService) {}
   ngOnInit() {
-    this.verifyOtpForm = new FormGroup({
-      otp: new FormControl(null, [
+    this.forgotPasswordForm = new FormGroup({
+      email: new FormControl(null, [
         Validators.required,
         CustomValidators.noSpaceAllowed,
         Validators.email,
@@ -33,8 +33,8 @@ export class VerifyOtpComponent {
   }
 
   OnFormSubmitted() {
-    if (this.verifyOtpForm.valid) {
-      const email = this.verifyOtpForm.get('email').value;
+    if (this.forgotPasswordForm.valid) {
+      const email = this.forgotPasswordForm.get('email').value;
       this.isLoading = true;
       this.authApiService.sendResetPasswordLink(email).subscribe(
         (response: ApiResponseInterface<any>) => {
@@ -59,8 +59,8 @@ export class VerifyOtpComponent {
   }
 
   resetLoginForm() {
-    this.verifyOtpForm.reset({
-      otp: null,
+    this.forgotPasswordForm.reset({
+      email: null,
     });
   }
 
