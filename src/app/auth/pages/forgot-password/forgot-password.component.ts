@@ -34,9 +34,10 @@ export class ForgotPasswordComponent implements OnInit {
 
   OnFormSubmitted() {
     if (this.forgotPasswordForm.valid) {
-      const email = this.forgotPasswordForm.get('email').value;
+      const data  = this.forgotPasswordForm.value;
+     
       this.isLoading = true;
-      this.authApiService.sendResetPasswordLink(email).subscribe(
+      this.authApiService.sendResetPasswordLink(data).subscribe(
         (response: ApiResponseInterface<any>) => {
           // Handle successful response
           console.log('Reset password link sent successfully:', response);

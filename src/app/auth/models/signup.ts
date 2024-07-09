@@ -1,4 +1,4 @@
-export interface organizationSignup {
+export interface ISignup {
     email: string,
     name:string,
     jobTitle:string,

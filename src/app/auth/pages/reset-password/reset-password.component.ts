@@ -44,6 +44,7 @@ export class ResetPasswordComponent implements OnInit {
     }
     if (this.resetPasswordForm.valid) {
       const data = this.resetPasswordForm.value;
+      console.log(data)
       this.isLoading = true;
       this.authApiService.resetPassword(data, this.token).subscribe(
         (response: ApiResponseInterface<any>) => {

@@ -1,3 +1,3 @@
-export interface resendOtp {
+export interface IResendOtp {
     email: string
 }

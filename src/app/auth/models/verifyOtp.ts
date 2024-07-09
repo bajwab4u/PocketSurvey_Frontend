@@ -1,4 +1,4 @@
-export interface verifyOtp {
+export interface IVerifyOtp {
     email: string,
     otp:string
 }
